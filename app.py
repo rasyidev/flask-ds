@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from model import load, prediksi
+import sklearn
 
 app = Flask(__name__)
 
@@ -21,9 +22,8 @@ def predict():
 
     # melakukan prediksi menggunakan model yang telah dibuat
     data = [[tingkat_kepuasan, lama_bekerja, kecelakaan_kerja, gaji, jam_kerja_per_bulan]]
-    prediction_result = prediksi(data)
-    print(prediction_result)
-    return render_template('index.html', hasil_prediksi=prediction_result)
+    prediction_result, confidence = prediksi(data)
+    return render_template('index.html', hasil_prediksi=prediction_result, nilai_kepercayaan=confidence)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

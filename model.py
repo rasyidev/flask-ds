@@ -10,10 +10,14 @@ def load():
 
 def prediksi(data):
     data = scaler.transform(data)
-    print(data)
     prediksi = int(model.predict(data))
+    nilai_kepercayaan = model.predict_proba(data).flatten()
+    nilai_kepercayaan = max(nilai_kepercayaan) * 100
+    print(nilai_kepercayaan)
+    nilai_kepercayaan = round(nilai_kepercayaan)
+
     if prediksi == 0:
         hasil_prediksi = "Tidak Resign"
     else:
         hasil_prediksi = "Akan Resign"
-    return hasil_prediksi
+    return hasil_prediksi, nilai_kepercayaan
